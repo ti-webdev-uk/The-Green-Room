@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Green Room — Counselling & Life Coaching</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage: #5C7B6A;
+    --sage-light: #EBF0EC;
+    --sage-mid: #A8C0B0;
+    --warm: #F5F0E8;
+    --warm-dark: #E8E0D0;
+    --ink: #1C1C1A;
+    --ink-soft: #4A4A45;
+    --ink-muted: #8A8A82;
+    --white: #FDFCFA;
+    --accent: #8B5E3C;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(253,252,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(92,123,106,0.12);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--sage); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--sage); }
+
+  .nav-cta {
+    background: var(--sage) !important;
+    color: var(--white) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 2rem;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.06em;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--ink) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    background: var(--warm);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem; height: 1px;
+    background: var(--sage);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em { font-style: italic; color: var(--sage); }
+
+  .hero-body {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--white);
+    padding: 0.85rem 2rem;
+    border-radius: 3rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--sage); transform: translateY(-1px); }
+
+  .btn-ghost {
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--sage); }
+
+  /* HERO RIGHT — photo panel */
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 3rem 0 0 0;
+    overflow: hidden;
+  }
+
+  .hero-visual {
+    width: 100%;
+    height: 90%;
+    border-radius: 3rem 0 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Room photo fills the panel */
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Gradient overlay so text remains readable */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(20,30,24,0.82) 0%,
+      rgba(20,30,24,0.3) 45%,
+      rgba(20,30,24,0.05) 100%
+    );
+  }
+
+  /* Content sitting above overlay */
+  .hero-visual-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2.5rem;
+    z-index: 2;
+  }
+
+  .hero-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.45rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.92);
+    line-height: 1.5;
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 2rem;
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-dot {
+    width: 6px; height: 6px;
+    background: #9FD9B4;
+    border-radius: 50%;
+  }
+
+  /* ABOUT — portrait replaced with real photo */
+  .about {
+    background: var(--warm);
+    padding: 7rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-visual { position: relative; }
+
+  .about-portrait {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 2rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .about-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .about-card {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    background: var(--white);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    min-width: 180px;
+  }
+
+  .about-card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--sage);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .about-card-label {
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .about-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1.25rem;
+  }
+
+  .about-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .about-headline em { font-style: italic; color: var(--sage); }
+
+  .about-text {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  .credentials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .credential-tag {
+    background: var(--sage-light);
+    color: var(--sage);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.85rem;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    border: 1px solid rgba(92,123,106,0.2);
+  }
+
+  /* STRIP */
+  .strip {
+    background: var(--ink);
+    padding: 1.5rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .strip-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255,255,255,0.55);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .strip-item span { color: var(--sage-mid); }
+
+  /* SERVICES */
+  .section { padding: 7rem 5rem; }
+
+  .section-header { margin-bottom: 4rem; }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--warm-dark);
+    max-width: 60px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .section-title em { font-style: italic; color: var(--sage); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--warm-dark);
+    border: 1.5px solid var(--warm-dark);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--white);
+    padding: 2.5rem 2rem;
+    transition: background 0.3s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .service-card:hover { background: var(--sage-light); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    color: var(--warm-dark);
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+  }
+
+  .service-card:hover .service-num { color: var(--sage-mid); }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .service-desc {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--ink-muted);
+    font-weight: 300;
+  }
+
+  /* HOW */
+  .how { padding: 7rem 5rem; background: var(--white); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 2rem;
+    left: 12.5%; right: 12.5%;
+    height: 1px;
+    background: var(--warm-dark);
+  }
+
+  .step { padding: 0 1.5rem; text-align: center; position: relative; }
+
+  .step-circle {
+    width: 4rem; height: 4rem;
+    border-radius: 50%;
+    border: 2px solid var(--sage-mid);
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--sage);
+    position: relative;
+    z-index: 1;
+    background: var(--white);
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+  }
+
+  .step:hover .step-circle { background: var(--sage); border-color: var(--sage); color: white; }
+
+  .step-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-desc { font-size: 0.82rem; line-height: 1.65; color: var(--ink-muted); font-weight: 300; }
+
+  /* CONTACT */
+  .contact {
+    background: var(--ink);
+    padding: 7rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage-mid);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .contact-eyebrow::before { content: ''; width: 2rem; height: 1px; background: var(--sage-mid); }
+
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 2rem;
+  }
+
+  .contact-title em { font-style: italic; color: var(--sage-mid); }
+
+  .contact-details { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .contact-detail-icon {
+    width: 2rem; height: 2rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .contact-detail a { color: var(--sage-mid); text-decoration: none; }
+
+  .contact-form {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+  }
+
+  .form-row { margin-bottom: 1.25rem; }
+
+  .form-label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input::placeholder { color: rgba(255,255,255,0.2); }
+  .form-input:focus { border-color: var(--sage-mid); }
+  textarea.form-input { resize: vertical; min-height: 100px; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--sage);
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 0.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .form-submit:hover { background: var(--sage-mid); }
+
+  .consultation-banner {
+    background: var(--sage-light);
+    border-top: 1px solid rgba(92,123,106,0.15);
+    border-bottom: 1px solid rgba(92,123,106,0.15);
+    padding: 3rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .banner-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+
+  .banner-sub { font-size: 0.85rem; color: var(--ink-muted); font-weight: 300; }
+
+  .banner-tel {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--sage);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .banner-tel:hover { color: var(--ink); }
+
+  footer {
+    background: #111110;
+    padding: 2.5rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: rgba(255,255,255,0.5); }
+  .footer-logo span { color: var(--sage-mid); }
+  .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+  .footer-links a {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--sage-mid); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">The <span>Green</span> Room</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">Meet Julie</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#contact" class="nav-cta">Book Free Session</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Saxilby, Lincolnshire</p>
+    <h1 class="hero-title">A space to<br>be <em>entirely</em><br>yourself.</h1>
+    <p class="hero-body">Counselling, life coaching and hypnotherapy in a warm, confidential environment. No judgement — just the support you need to move forward.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book free consultation</a>
+      <a href="#services" class="btn-ghost">
+        Explore services
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <img
+        class="hero-photo"
+        src="https://images.unsplash.com/photo-1649511134921-67afc567280c?q=80&w=1287&auto=format&fit=crop"
+        alt="Calm, welcoming therapy room interior"
+      >
+      <div class="hero-overlay"></div>
+      <div class="hero-visual-content">
+        <p class="hero-quote">"You have nothing to lose<br>and everything to gain."</p>
+        <div class="hero-badge">
+          <div class="hero-dot"></div>
+          Free initial consultation available
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-item"><span>✦</span> Face-to-face & remote sessions</div>
+  <div class="strip-item"><span>✦</span> Lincoln, Gainsborough & Newark</div>
+  <div class="strip-item"><span>✦</span> Corporate counselling & workshops</div>
+  <div class="strip-item"><span>✦</span> Home visits available</div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-header">
+    <div class="section-tag">What we offer</div>
+    <h2 class="section-title">Tailored therapy<br>for <em>every</em> path forward</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-name">Counselling</div>
+      <p class="service-desc">A safe and confidential space to explore unresolved issues, past experiences, and current challenges — at your own pace.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-name">Life Coaching</div>
+      <p class="service-desc">Clarify your hopes, dreams and ambitions. Build a practical, motivated roadmap to the life you want to be living.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-name">Hypnotherapy</div>
+      <p class="service-desc">Address deep-seated fears, phobias and habits through guided hypnosis — gentle, effective, and evidence-based.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <div class="service-name">NLP</div>
+      <p class="service-desc">Neuro-linguistic programming to re-shape thought patterns and unlock new ways of experiencing the world around you.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <div class="service-name">CBT</div>
+      <p class="service-desc">Cognitive Behavioural Therapy to identify and challenge unhelpful thinking — proven for anxiety, low mood and more.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <div class="service-name">Corporate</div>
+      <p class="service-desc">On-site counselling and coaching workshops delivered at your place of employment. Investing in your team's wellbeing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="consultation-banner">
+  <div>
+    <h3 class="banner-headline">Not sure where to start?</h3>
+    <p class="banner-sub">Julie offers a completely free initial consultation — no obligation, no pressure.</p>
+  </div>
+  <a href="tel:07791009878" class="banner-tel">07791 009 878</a>
+  <a href="#contact" class="btn-primary">Book your free session</a>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-portrait">
+      <img
+        src="https://d1k8hez1mxkuxw.cloudfront.net/s/users/399434/seller/profile/the-green-room-5c0a5ecc5c53d.jpg!d=LmlHXm"
+        alt="Julie Holmes — Life Therapist"
+      >
+    </div>
+    <div class="about-card">
+      <div class="about-card-num">10+</div>
+      <div class="about-card-label">Years of experience</div>
+    </div>
+  </div>
+  <div>
+    <div class="about-name">— Meet Julie Holmes</div>
+    <h2 class="about-headline">A friendly welcome<br>and <em>genuine</em> expertise.</h2>
+    <p class="about-text">Julie is an experienced life therapist based in the heart of Saxilby, conveniently accessible from Lincoln, Gainsborough, Newark and all surrounding villages.</p>
+    <p class="about-text">Having worked with people across a wide range of challenges over many years, Julie provides a warm, non-judgmental space where you're free to be yourself. She meets clients at her private practice, in your home, or at a place of your choosing.</p>
+    <p class="about-text">Julie also delivers corporate counselling and coaching workshops at workplaces across Lincolnshire.</p>
+    <div class="credentials">
+      <span class="credential-tag">Counselling</span>
+      <span class="credential-tag">Life Coaching</span>
+      <span class="credential-tag">Hypnotherapy</span>
+      <span class="credential-tag">NLP</span>
+      <span class="credential-tag">CBT</span>
+      <span class="credential-tag">Corporate Workshops</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-header">
+    <div class="section-tag">The process</div>
+    <h2 class="section-title">Simple steps to<br><em>getting started</em></h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-circle">1</div>
+      <div class="step-name">Get in touch</div>
+      <p class="step-desc">Call or email Julie. There's no pressure — just an open, friendly conversation.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">2</div>
+      <div class="step-name">Free consultation</div>
+      <p class="step-desc">Meet Julie to see if she's the right fit for you. Completely free, no obligation.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">3</div>
+      <div class="step-name">Choose your path</div>
+      <p class="step-desc">Together you'll agree on the right approach — in-person, telephone or email.</p>
+    </div>
+    <div class="step">
+      <div class="step-circle">4</div>
+      <div class="step-name">Begin your journey</div>
+      <p class="step-desc">Start working at your own pace, in total privacy and at a time that suits you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div>
+    <div class="contact-eyebrow">Get in touch</div>
+    <h2 class="contact-title">Ready to take<br>the first <em>step?</em></h2>
+    <p style="font-size:0.92rem;line-height:1.75;color:rgba(255,255,255,0.5);font-weight:300;max-width:380px;">Send a message and Julie will get back to you as soon as possible. Everything is completely confidential.</p>
+    <div class="contact-details">
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✉</div>
+        <div><a href="mailto:thegreenroomtherapy@gmail.com">thegreenroomtherapy@gmail.com</a></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">☎</div>
+        <div><a href="tel:07791009878">07791 009 878</a></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✦</div>
+        <div>Saxilby, Lincoln — home visits available</div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-form">
+    <div class="form-row">
+      <label class="form-label">Your name</label>
+      <input type="text" class="form-input" placeholder="First and last name">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Email address</label>
+      <input type="email" class="form-input" placeholder="your@email.com">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Phone (optional)</label>
+      <input type="tel" class="form-input" placeholder="07xxx xxx xxx">
+    </div>
+    <div class="form-row">
+      <label class="form-label">How can Julie help?</label>
+      <textarea class="form-input" placeholder="Tell Julie a little about what you're going through — or simply say hello."></textarea>
+    </div>
+    <button class="form-submit">Send message →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">The <span>Green</span> Room</div>
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Julie Holmes Life Therapist · Saxilby, Lincoln</div>
+</footer>
+
+</body>
+</html>
